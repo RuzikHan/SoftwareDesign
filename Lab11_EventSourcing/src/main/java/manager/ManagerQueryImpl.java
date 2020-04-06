@@ -19,10 +19,8 @@ public class ManagerQueryImpl implements ManagerQuery {
                 User user = new User(id, resultSet.getTimestamp("subscriptionEnd").toLocalDateTime());
                 statement.close();
                 return user;
-            } else {
-                System.out.println("User does not exists");
-                statement.close();
             }
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

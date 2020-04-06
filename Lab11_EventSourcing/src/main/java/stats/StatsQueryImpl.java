@@ -21,8 +21,8 @@ public class StatsQueryImpl implements StatsQuery {
     }
 
     @Override
-    public List<Integer> getAverageFrequencyForUser(int id) {
-        return state.getAverageFrequencyForUser(id);
+    public List<Integer> getFrequencyForUser(int id) {
+        return state.getFrequencyForUser(id);
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.util.List;
 public interface StatsQuery {
     int getStatsByDay(LocalDateTime day);
     List<Integer> getAverageFrequency();
-    List<Integer> getAverageFrequencyForUser(int id);
+    List<Integer> getFrequencyForUser(int id);
     double getAverageVisitDuration();
     double getAverageVisitDurationForUser(int id);
 }

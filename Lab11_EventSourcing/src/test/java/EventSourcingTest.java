@@ -2,8 +2,7 @@ import database.DBConnection;
 import database.DBConnectionImpl;
 import gate.GateCommand;
 import gate.GateCommandImpl;
-import manager.ManagerCommand;
-import manager.ManagerCommandImpl;
+import manager.*;
 import org.junit.Assert;
 import org.junit.Test;
 import stats.StateImpl;
@@ -50,6 +49,9 @@ public class EventSourcingTest {
         managerCommand.createUser(2);
         Assert.assertTrue(managerCommand.renewSubscription(1, LocalDateTime.of(2020, 10, 10, 10, 10)).status);
         Assert.assertTrue(managerCommand.renewSubscription(2, LocalDateTime.of(2020, 10, 10, 10, 10)).status);
+        ManagerQuery managerQuery = new ManagerQueryImpl(connection);
+        Assert.assertNotNull(managerQuery.getUser(1));
+        Assert.assertNull(managerQuery.getUser(3));
     }
 
     @Test
@@ -134,7 +136,7 @@ public class EventSourcingTest {
         statsSetup(connection);
         StatsQueryImpl statsQuery = new StatsQueryImpl(new StateImpl(connection));
         List<Integer> frequency = statsQuery.getAverageFrequency();
-        Assert.assertEquals(4, (int) frequency.get(0));
+        Assert.assertEquals(2, (int) frequency.get(0));
     }
 
     @Test
@@ -143,8 +145,10 @@ public class EventSourcingTest {
         create(connection);
         statsSetup(connection);
         StatsQueryImpl statsQuery = new StatsQueryImpl(new StateImpl(connection));
-        List<Integer> frequency = statsQuery.getAverageFrequencyForUser(1);
+        List<Integer> frequency = statsQuery.getFrequencyForUser(1);
         Assert.assertEquals(3, (int) frequency.get(0));
+        frequency = statsQuery.getFrequencyForUser(2);
+        Assert.assertEquals(1, (int) frequency.get(0));
     }
 
     @Test

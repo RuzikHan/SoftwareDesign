@@ -34,14 +34,14 @@ public class StatsHandler implements HttpHandler {
                 List<Integer> visits = statsQuery.getAverageFrequency();
                 Collections.reverse(visits);
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("Visits in last 30 days").append("\n");
+                stringBuilder.append("Average visits by day in last 30 days").append("\n");
                 for (Integer count : visits) {
                     stringBuilder.append(count).append(" ");
                 }
                 sResponse = stringBuilder.toString();
-            } else if (request.startsWith("/user-average-frequency")) {
+            } else if (request.startsWith("/user-frequency")) {
                 int user_id = Integer.parseInt(httpRequest.queryParam("user_id"));
-                List<Integer> visits = statsQuery.getAverageFrequencyForUser(user_id);
+                List<Integer> visits = statsQuery.getFrequencyForUser(user_id);
                 Collections.reverse(visits);
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("Visits in last 30 days for user with id = ").append(user_id).append("\n");

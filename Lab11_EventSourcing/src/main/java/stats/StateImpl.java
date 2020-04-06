@@ -5,6 +5,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class StateImpl implements State {
     Connection connection;
@@ -92,18 +93,19 @@ public class StateImpl implements State {
     public List<Integer> getAverageFrequency() {
         List<Integer> visits = new ArrayList<>(Collections.nCopies(30, 0));
         for (Integer id : data.keySet()) {
-            List<Integer> userVisits = getAverageFrequencyForUser(id);
+            List<Integer> userVisits = getFrequencyForUser(id);
             if (visits.size() == userVisits.size()) {
                 for (int i = 0; i < visits.size(); i++) {
                     visits.set(i, visits.get(i) + userVisits.get(i));
                 }
             }
         }
+        visits = visits.stream().map(count -> count / data.size()).collect(Collectors.toList());
         return visits;
     }
 
     @Override
-    public List<Integer> getAverageFrequencyForUser(int id) {
+    public List<Integer> getFrequencyForUser(int id) {
         LocalDateTime now = LocalDateTime.now();
         List<Integer> visits = new ArrayList<>(Collections.nCopies(30, 0));
         List<VisitTime> userVisits = data.getOrDefault(id, null);

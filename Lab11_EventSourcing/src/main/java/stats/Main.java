@@ -17,7 +17,7 @@ public class Main {
         WebServer webServer = WebServers.createWebServer(8082)
                 .add("/day-stats", statsHandler)
                 .add("/all-average-frequency", statsHandler)
-                .add("/user-average-frequency", statsHandler)
+                .add("/user-frequency", statsHandler)
                 .add("/all-average-duration", statsHandler)
                 .add("/user-average-duration", statsHandler)
                 .add("/add-visit", statsHandler);
